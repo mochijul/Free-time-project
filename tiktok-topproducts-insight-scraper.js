@@ -4,16 +4,13 @@ const headers = {
     "accept-language": "en-US,en;q=0.9",
     "lang": "en",
     "sec-ch-ua": "\"Not/A)Brand\";v=\"99\", \"Google Chrome\";v=\"115\", \"Chromium\";v=\"115\"",
-    "sec-ch-ua-mobile": "?0",
-    "sec-ch-ua-platform": "\"macOS\"",
-    "sec-fetch-dest": "empty",
     "sec-fetch-mode": "cors",
     "sec-fetch-site": "same-origin",
-    "timestamp": "1691170358",
-    "user-sign": "98975541e808ba27",
+
+    "timestamp": "1691175478",
+    "user-sign": "f071f0960071197f",
     "web-id": "7257102651983234562",
-    "x-csrftoken": "hqjTsSnXlzLuwvE8NNRZFAYSlJlV1ovu",
-    "custom-header": "Your_Custom_Header_Value"
+    "x-csrftoken": "hqjTsSnXlzLuwvE8NNRZFAYSlJlV1ovu"
 };
 
 // Helper function to fetch data with a sleep delay
@@ -43,6 +40,7 @@ async function getAllDataWithDelay(apiUrl, headers, delay, maxRetries) {
 
     while (true) {
         try {
+            console.log("Scraping page " + page)
             const response = await fetchDataWithDelay(`${apiUrl}&page=${page}`, headers, delay);
             const list = response.data.list;
             const has_more = response.data.pagination.has_more;
@@ -118,6 +116,7 @@ getAllDataWithDelay(apiUrl, headers, 1000, 5)
 
         // Function to download the CSV file
         function downloadCSV(content, filename) {
+            console.log("Downloading..")
             const blob = new Blob([content], { type: "text/csv" });
             const url = URL.createObjectURL(blob);
             const a = document.createElement("a");
@@ -125,8 +124,9 @@ getAllDataWithDelay(apiUrl, headers, 1000, 5)
             a.download = filename;
             a.click();
             URL.revokeObjectURL(url);
+            console.log("File Downloaded !")
         }
-        downloadCSV(csvContent, "output.csv");
+        downloadCSV(csvContent, "explore-top-productdata.csv");
 
     })
     .catch((error) => {
